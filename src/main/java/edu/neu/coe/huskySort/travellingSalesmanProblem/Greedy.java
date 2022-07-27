@@ -10,7 +10,7 @@ import java.util.Random;
 public class Greedy {
     // Function to find the minimum
     // cost path for all the paths
-    static void findMinRoute(int[][] tsp, int initialNode)
+    static List<Integer> findMinRoute(int[][] tsp, int initialNode)
     {
         int sum = 0;
         int counter = 0;
@@ -19,7 +19,7 @@ public class Greedy {
         List<Integer> visitedRouteList
                 = new ArrayList<>();
 
-        // Starting from the 0th indexed
+        // Starting from the random indexed
         // city i.e., the first city
         Random r = new Random();
 
@@ -65,24 +65,18 @@ public class Greedy {
         // Update the ending city in array
         // from city which was last visited
         i = route[counter - 1] - 1;
-        System.out.println(initialNode);
-        for(int x: visitedRouteList)
-            System.out.print(x + " ");
-        System.out.println();
         sum += tsp[i][initialNode];
-//
-//        for (j = 0; j < tsp.length; j++) {
-//
-//            if ((i != j) && tsp[i][j] < min) {
-//                min = tsp[i][j];
-//                route[counter] = j + 1;
-//            }
-//        }
-//        sum += min;
 
         // Started from the node where
         // we finished as well.
-        System.out.print("Minimum Cost is : ");
+        System.out.println("Greedy Result: ");
+        System.out.print("Path: ");
+        for(int x: visitedRouteList)
+            System.out.print(x + " ");
+        System.out.print(visitedRouteList.get(0));
+        System.out.println();
+        System.out.print("Minimum Cost : ");
         System.out.println(sum);
+        return visitedRouteList;
     }
 }

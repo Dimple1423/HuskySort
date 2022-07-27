@@ -1,5 +1,9 @@
 package edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.*;
 
 public class ÜberSalesmensch {
@@ -32,7 +36,7 @@ public class ÜberSalesmensch {
 
     public List<SalesmanGenome> initialPopulation(){
         List<SalesmanGenome> population = new ArrayList<>();
-        for(int i=0; i<generationSize; i++){
+        for(int i=1; i<generationSize; i++){
             population.add(new SalesmanGenome(numberOfCities, travelPrices, startingCity));
         }
         return population;
@@ -69,9 +73,10 @@ public class ÜberSalesmensch {
         return population.get(selectRandom);
     }
 
-    public static <E> List<E> pickNRandomElements(List<E> list, int n) {
+    public static <E> List<E> pickNRandomElements(List<SalesmanGenome> list, int n) {
         Random r = new Random();
         int length = list.size();
+
 
         if (length < n) return null;
 
@@ -79,7 +84,11 @@ public class ÜberSalesmensch {
         {
             Collections.swap(list, i , r.nextInt(i + 1));
         }
-        return list.subList(length - n, length);
+        List<SalesmanGenome> selected = new ArrayList<SalesmanGenome>();
+        Collections.min(list);
+        selected.add(Collections.min(list));
+        selected.addAll(list.subList(length - n, length));
+        return (List<E>)selected;
     }
 
     public SalesmanGenome tournamentSelection(List<SalesmanGenome> population){
@@ -142,15 +151,38 @@ public class ÜberSalesmensch {
         return children;
     }
 
-    public SalesmanGenome optimize(){
+    public SalesmanGenome optimize(List<Integer> greedyResult){
         List<SalesmanGenome> population = initialPopulation();
+        greedyResult.remove(0);
+        population.add(new SalesmanGenome(numberOfCities,greedyResult, travelPrices, startingCity));
+
         SalesmanGenome globalBestGenome = population.get(0);
+        List<Integer> fitness = new ArrayList<>();
         for(int i=0; i<maxIterations; i++){
             List<SalesmanGenome> selected = selection(population);
             population = createGeneration(selected);
             globalBestGenome = Collections.min(population);
             if(globalBestGenome.getFitness() < targetFitness)
                 break;
+            fitness.add(globalBestGenome.fitness);
+            System.out.println(i + " " + globalBestGenome);
+
+        }
+        try {
+            FileOutputStream fis = new FileOutputStream("./src/result.csv");
+            OutputStreamWriter isr = new OutputStreamWriter(fis);
+            BufferedWriter bw = new BufferedWriter(isr);
+            int j = 1;
+            for (int cost: fitness) {
+                String content = j + "," + cost + "\n";
+                j++;
+                bw.write(content);
+                bw.flush();
+            }
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return globalBestGenome;
     }
