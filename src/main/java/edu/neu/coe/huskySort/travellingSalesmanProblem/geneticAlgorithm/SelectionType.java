@@ -1,4 +1,4 @@
-package edu.neu.coe.huskySort.travellingSalesmanProblem;
+package edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm;
 
 public enum SelectionType {
 

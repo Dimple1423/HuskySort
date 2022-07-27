@@ -1,9 +1,8 @@
-package edu.neu.coe.huskySort.travellingSalesmanProblem;
+package edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * @author Dimpleben Kanjibhai Patel

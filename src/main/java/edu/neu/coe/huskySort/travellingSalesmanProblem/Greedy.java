@@ -10,7 +10,7 @@ import java.util.Random;
 public class Greedy {
     // Function to find the minimum
     // cost path for all the paths
-    static void findMinRoute(int[][] tsp)
+    static void findMinRoute(int[][] tsp, int initialNode)
     {
         int sum = 0;
         int counter = 0;
@@ -22,9 +22,9 @@ public class Greedy {
         // Starting from the 0th indexed
         // city i.e., the first city
         Random r = new Random();
-        int initalNode = r.nextInt(tsp.length);
-        int i = initalNode;
-        visitedRouteList.add(initalNode);
+
+        int i = initialNode;
+        visitedRouteList.add(initialNode);
         int[] route = new int[tsp.length];
 
         // Traverse the adjacency
@@ -65,9 +65,11 @@ public class Greedy {
         // Update the ending city in array
         // from city which was last visited
         i = route[counter - 1] - 1;
-        System.out.println(initalNode);
-        for(int x: visitedRouteList) System.out.println(x + " ");
-        sum += tsp[i][initalNode];
+        System.out.println(initialNode);
+        for(int x: visitedRouteList)
+            System.out.print(x + " ");
+        System.out.println();
+        sum += tsp[i][initialNode];
 //
 //        for (j = 0; j < tsp.length; j++) {
 //

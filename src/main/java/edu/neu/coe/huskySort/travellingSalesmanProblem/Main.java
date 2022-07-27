@@ -1,5 +1,9 @@
 package edu.neu.coe.huskySort.travellingSalesmanProblem;
 
+import edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm.SalesmanGenome;
+import edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm.SelectionType;
+import edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm.ÜberSalesmensch;
+
 import java.util.Random;
 
 /**
@@ -8,9 +12,11 @@ import java.util.Random;
 public class Main {
     public static void main(String args[]){
         // Input Matrix
-        int n = 4;
-        int[][] tsp = new int[n][n];
+        int n = 5;
         Random r = new Random();
+        int[][] tsp = new int[n][n];
+        int initalNode = r.nextInt(tsp.length);
+
         for(int i=0; i< n; i++){
             for(int j = i+1; j < n; j++){
                 tsp[i][j] = r.nextInt(100);
@@ -27,6 +33,10 @@ public class Main {
 
         // Function Call
         Greedy greedy = new Greedy();
-        greedy.findMinRoute(tsp);
+        greedy.findMinRoute(tsp, initalNode);
+
+        ÜberSalesmensch geneticAlgorithm = new ÜberSalesmensch(n, SelectionType.TOURNAMENT, tsp, initalNode, 0);
+        SalesmanGenome result = geneticAlgorithm.optimize();
+        System.out.println(result);
     }
 }
