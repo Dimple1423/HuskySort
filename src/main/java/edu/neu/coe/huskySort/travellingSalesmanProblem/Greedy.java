@@ -29,10 +29,12 @@ public class Greedy {
 
         // Traverse the adjacency
         // matrix tsp[][]
+        int count = 0;
         while (i < tsp.length
                 && j < tsp[i].length) {
 
             // Corner of the Matrix
+            System.out.println("Progress = "+ ++count);
             if (counter >= tsp[i].length - 1) {
                 break;
             }

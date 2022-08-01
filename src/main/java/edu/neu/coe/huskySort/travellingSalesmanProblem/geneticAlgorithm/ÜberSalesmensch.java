@@ -25,7 +25,7 @@ public class ÜberSalesmensch {
 
         generationSize = 5000;
         reproductionSize = 200;
-        maxIterations = 1000;
+        maxIterations = 10000;
         mutationRate = 0.1f;
         tournamentSize = 40;
     }
