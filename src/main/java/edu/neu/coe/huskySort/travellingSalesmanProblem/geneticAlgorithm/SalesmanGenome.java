@@ -23,6 +23,14 @@ public class SalesmanGenome implements Comparable {
         fitness = this.calculateFitness();
     }
 
+    public SalesmanGenome(int numberOfCities, List<Integer> genome, int[][] travelPrices, int startingCity){
+        this.travelPrices = travelPrices;
+        this.startingCity = startingCity;
+        this.numberOfCities = numberOfCities;
+        this.genome = genome;
+        fitness = this.calculateFitness();
+    }
+
     public SalesmanGenome(List<Integer> permutationOfCities, int numberOfCities, int[][] travelPrices, int startingCity){
         genome = permutationOfCities;
         this.travelPrices = travelPrices;
@@ -71,15 +79,16 @@ public class SalesmanGenome implements Comparable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Path: ");
-        sb.append(startingCity);
-        for ( int gene: genome ) {
-            sb.append(" ");
-            sb.append(gene);
-        }
-        sb.append(" ");
-        sb.append(startingCity);
-        sb.append("\nLength: ");
+//        sb.append("Genetic Result: \n");
+//        sb.append("Path: ");
+//        sb.append(startingCity);
+//        for ( int gene: genome ) {
+//            sb.append(" ");
+//            sb.append(gene);
+//        }
+//        sb.append(" ");
+//        sb.append(startingCity);
+        sb.append("\nMinimum Cost: ");
         sb.append(this.fitness);
         return sb.toString();
     }
