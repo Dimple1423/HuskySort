@@ -70,9 +70,6 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
          * @return an array of partitions, whose length depends on the sorting method being used.
          */
         public List<Partition<X>> partition(Partition<X> partition) {
-
-            System.out.println("In quick sort basic");
-
             final X[] xs = partition.xs;
             final int from = partition.from;
             final int to = partition.to;
@@ -94,38 +91,25 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
                 }
                 helper.swap(xs, from, j);
             }
-//            else {
-//            while (true) {
-//                while (i < hi && xs[++i].compareTo(v) < 0) {}
-//                while (j > from && xs[--j].compareTo(v) > 0) {}
-//                if (i >= j) break;
-//                swap(xs, i, j);
-//            }
-//            swap(xs, from, j);
-//            }
-            System.out.println("j="+j);
-            for(X x: xs)
-                System.out.print(x+" ");
-            System.out.println();
-
+            else {
+            while (true) {
+                while (i < hi && xs[++i].compareTo(v) < 0) {}
+                while (j > from && xs[--j].compareTo(v) > 0) {}
+                if (i >= j) break;
+                swap(xs, i, j);
+            }
+            swap(xs, from, j);
+            }
             List<Partition<X>> partitions = new ArrayList<>();
             partitions.add(new Partition<>(xs, from, j));
             partitions.add(new Partition<>(xs, j + 1, to));
             return partitions;
         }
 
-        private void swap(X[] xs, int i, int j) {
-//            X temp = ys[i];
-//            ys[i] = ys[j];
-//            ys[j] = temp;
-            if (i == j) return;
-            swaps++;
-            final X v = xs[i];
-            final X w = xs[j];
-//            instrumenter.incrementHits(4);
-//            if (instrumenter.isCountFixes()) updateFixes(xs, i, j, v, w);
-            xs[i] = w;
-            xs[j] = v;
+        private void swap(X[] ys, int i, int j) {
+            X temp = ys[i];
+            ys[i] = ys[j];
+            ys[j] = temp;
         }
 
         private final Helper<X> helper;

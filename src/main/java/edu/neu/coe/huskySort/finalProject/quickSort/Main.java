@@ -21,7 +21,6 @@ public class Main {
     public static void main(String args[]) throws IOException {
         int k = 4;
         int N = (int) Math.pow(2, k);
-        // NOTE this depends on the cutoff value for quick sort.
         int levels = k - 2;
         final Config config = Config.setupConfig("true", "", "1", "1", "");
         final ComparisonSortHelper<Integer> helper = (ComparisonSortHelper<Integer>) HelperFactory.create("quick sort basic", N, config);
@@ -30,14 +29,7 @@ public class Main {
         s.init(N);
         final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
         helper.preProcess(xs);
-        for(int x: xs)
-            System.out.print(x+" ");
-        System.out.println();
         Integer[] ys = s.sort(xs);
-        for(int x: ys)
-            System.out.print(x+" ");
-        System.out.println();
-        //assertTrue(helper.sorted(ys));
         helper.postProcess(ys);
         final PrivateMethodInvoker privateMethodTester = new PrivateMethodInvoker(helper);
         final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
@@ -50,7 +42,6 @@ public class Main {
         final int worstCompares = round(2.0 * N * Math.log(N));
         final int bestCompares = round(N * k);
         System.out.println("bestCompares: " + bestCompares + ", compares: " + compares + ", worstCompares: " + worstCompares);
-        //assertTrue(compares <= worstCompares);
         System.out.println("ratio of compares to swaps: " + compares*1.0/swaps);
     }
 }
