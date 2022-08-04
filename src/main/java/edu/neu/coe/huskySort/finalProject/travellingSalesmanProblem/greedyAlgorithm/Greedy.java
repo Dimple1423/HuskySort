@@ -1,4 +1,4 @@
-package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem;
+package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.greedyAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Random;
 public class Greedy {
     // Function to find the minimum
     // cost path for all the paths
-    static List<Integer> findMinRoute(int[][] tsp, int initialNode)
+    public List<Integer> findMinRoute(int[][] tsp, int initialNode)
     {
         int sum = 0;
         int counter = 0;

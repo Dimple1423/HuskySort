@@ -3,6 +3,7 @@ package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem;
 import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.ÜberSalesmensch;
 import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.SalesmanGenome;
 import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.SelectionType;
+import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.greedyAlgorithm.Greedy;
 
 import java.util.List;
 import java.util.Random;
