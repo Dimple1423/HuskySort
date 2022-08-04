@@ -84,51 +84,95 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public void delete(Key key)
-    { root = delete(root, key); }
-    private Node delete(Node x, Key key) {
-        Random r = new Random();
+    { Random r = new Random();
         int select = r.nextInt(2);
 //        System.out.println(select);
-        if (x == null) return null;
-        int cmp = key.compareTo(x.key);
-        if (cmp < 0) x.left = delete(x.left, key);
-        else if (cmp > 0) x.right = delete(x.right, key);
-        else {
-            if (x.right == null) return x.left;
-            if (x.left == null) return x.right;
-            if( select ==0){
-                deleteSuccessor(x);
-            }
-            else if(select ==1){
-                deletePredecessor(x);
-            }
-
+        if(select == 0){
+            root = deleteSuc(root, key);
         }
-        x.count = size(x.left) + size(x.right) + 1;
-        return x;
+        else root = deletePre(root,key);
     }
 
     public void deleteHeight(Key key)
-    { root = deleteHeight(root, key); }
-    private Node deleteHeight(Node x, Key key) {
+    {  if(height(root.right) >= height(root.left))
+        root = deleteSuc(root, key);
+    else if(height(root.left) > height(root.right)){
+        root = deletePre(root,key);
+    }
+    }
+
+    private Node deleteSuc(Node x, Key key) {
+
+//        System.out.println(select);
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if (cmp < 0) x.left = deleteHeight(x.left, key);
-        else if (cmp > 0) x.right = deleteHeight(x.right, key);
+        if (cmp < 0) x.left = deleteSuc(x.left, key);
+        else if (cmp > 0) x.right = deleteSuc(x.right, key);
         else {
             if (x.right == null) return x.left;
             if (x.left == null) return x.right;
-            if(height(x.right) > height(x.left)){
                 deleteSuccessor(x);
-            }
-            else if(height(x.left) > height(x.right)){
-                deletePredecessor(x);
-            }
-
         }
         x.count = size(x.left) + size(x.right) + 1;
         return x;
     }
+
+    private Node deletePre(Node x, Key key) {
+
+//        System.out.println(select);
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.left = deletePre(x.left, key);
+        else if (cmp > 0) x.right = deletePre(x.right, key);
+        else {
+            if (x.right == null) return x.left;
+            if (x.left == null) return x.right;
+            deletePredecessor(x);
+        }
+        x.count = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+
+
+    public void deleteHbd(Key key)
+    { root = deleteHbd(root, key); }
+    private Node deleteHbd(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.left = deleteHbd(x.left, key);
+        else if (cmp > 0) x.right = deleteHbd(x.right, key);
+        else {
+            if (x.right == null) return x.left;
+            if (x.left == null) return x.right;
+            Node t = x;
+            x = min(t.right);
+            x.right = deleteMin(t.right);
+            x.left = t.left;
+        }
+        x.count = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+//    private Node deleteHeight(Node x, Key key) {
+//        if (x == null) return null;
+//        int cmp = key.compareTo(x.key);
+//        if (cmp < 0) x.left = deleteHeight(x.left, key);
+//        else if (cmp > 0) x.right = deleteHeight(x.right, key);
+//        else {
+//            if (x.right == null) return x.left;
+//            if (x.left == null) return x.right;
+//            if(height(x.right) > height(x.left)){
+//                deleteSuccessor(x);
+//            }
+//            else if(height(x.left) > height(x.right)){
+//                deletePredecessor(x);
+//            }
+//
+//        }
+//        x.count = size(x.left) + size(x.right) + 1;
+//        return x;
+//    }
 
     public boolean isEmpty() {
         return size() == 0;
@@ -186,22 +230,31 @@ public class BST<Key extends Comparable<Key>, Value> {
     public static void main(String[] args){
         BST tree = new BST();
         Random r = new Random();
+        int n=100000;
         int t=0;
+        int[] rand = new int[n];
 
-        for(int i=0; i<100; i++){
-            t = r.nextInt(100000);
+        for(int i=0; i<n; i++){
+            t = r.nextInt(10000000);
+            rand[i] = t;
 //            System.out.print(t+" ");
             tree.put(t,t);
 
         }
         tree.inOrder();
-        tree.deleteHeight(t);
+        for(int i=0; i<1000; i++){
+            int a = r.nextInt(n);
+            tree.delete(a);
+        }
+
         System.out.println(" ");
         tree.inOrder();
+        System.out.println(" ");
+        System.out.println("Height = " + tree.height());
 
 
 
 
-//        System.out.println(tree.height());
+
     }
 }
