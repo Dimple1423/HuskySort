@@ -40,6 +40,7 @@ public abstract class QuickSort<X extends Comparable<X>> extends SortWithHelper<
      * @param to   the index of the first element not to sort.
      */
     public void sort(final X[] xs, final int from, final int to) {
+        System.out.println("In quicksort");
         sort(xs, from, to, 0);
     }
 
@@ -58,6 +59,7 @@ public abstract class QuickSort<X extends Comparable<X>> extends SortWithHelper<
         if (partitioner == null) throw new RuntimeException("partitioner not set");
         final List<Partition<X>> partitions = partitioner.partition(partition);
         partitions.forEach(p -> sort(p.xs, p.from, p.to, depth + 1));
+
     }
 
     /**
@@ -117,7 +119,7 @@ public abstract class QuickSort<X extends Comparable<X>> extends SortWithHelper<
 
     private final InsertionSort<X> insertionSort;
 
-    protected Partitioner<X> partitioner;
+    public Partitioner<X> partitioner;
 
     final static LazyLogger logger = new LazyLogger(QuickSort.class);
 }

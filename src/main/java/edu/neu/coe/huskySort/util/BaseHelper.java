@@ -94,7 +94,8 @@ public abstract class BaseHelper<X> implements Helper<X> {
         X x1 = xs[0];
         for (int i = 1; i < xs.length; i++) {
             final X x2 = xs[i];
-            if (invertedPure(x1, x2)) return false;
+            System.out.println(invertedPure(x1, x2)+", x1="+x1+", x2="+x2);
+            if (!invertedPure(x1, x2)) return false;
             x1 = x2;
         }
         return true;

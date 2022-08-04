@@ -113,4 +113,6 @@ public interface Helper<X> {
     Instrumenter getInstrumenter();
 
     void setCheckSorted(boolean checkSorted);
+
+    void swap(X[] xs, int i, int j);
 }

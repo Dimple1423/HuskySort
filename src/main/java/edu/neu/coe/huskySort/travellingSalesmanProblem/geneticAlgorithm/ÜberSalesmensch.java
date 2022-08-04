@@ -29,7 +29,7 @@ public class ÜberSalesmensch {
 
         generationSize = 5000;
         reproductionSize = 200;
-        maxIterations = 10000;
+        maxIterations = 1000;
         mutationRate = 0.1f;
         tournamentSize = 40;
     }
@@ -159,6 +159,11 @@ public class ÜberSalesmensch {
         SalesmanGenome globalBestGenome = population.get(0);
         List<Integer> fitness = new ArrayList<>();
         for(int i=0; i<maxIterations; i++){
+
+            System.out.println("Genetic start");
+
+            long startTime = System.nanoTime();
+
             List<SalesmanGenome> selected = selection(population);
             population = createGeneration(selected);
             globalBestGenome = Collections.min(population);
@@ -166,6 +171,12 @@ public class ÜberSalesmensch {
                 break;
             fitness.add(globalBestGenome.fitness);
             System.out.println(i + " " + globalBestGenome);
+
+            long endTime = System.nanoTime();
+            double time = (double) (endTime-startTime)/1000000000;
+            System.out.println("Time taken = "+time);
+
+            System.out.println("Genetic end");
 
         }
         try {

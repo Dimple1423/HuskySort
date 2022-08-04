@@ -55,7 +55,7 @@ public class ComparableSortHelper<X extends Comparable<X>> extends AbstractCompa
      * @return v > w.
      */
     public boolean invertedPure(final X v, final X w) {
-        return v.compareTo(w) > 0;
+        return v.compareTo(w) < 0;
     }
 
     /**

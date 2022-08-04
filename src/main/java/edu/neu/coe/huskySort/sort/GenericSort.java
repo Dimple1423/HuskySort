@@ -27,6 +27,7 @@ public interface GenericSort<X> {
      * @param xs sort the array xs, returning the sorted result, leaving xs unchanged.
      */
     default X[] sort(final X[] xs) {
+        System.out.println("In generic sort");
         return sort(xs, true);
     }
 

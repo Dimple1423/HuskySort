@@ -13,7 +13,7 @@ import java.util.Random;
 public class Main {
     public static void main(String args[]){
         // Input Matrix
-        int n = 10000;
+        int n = 4000;
 
         Random r = new Random();
         int[][] tsp = new int[n][n];
@@ -36,26 +36,20 @@ public class Main {
 
         // Function Call
         System.out.println("Greedy start");
+        long startTime = System.nanoTime();
 
         Greedy greedy = new Greedy();
         List<Integer> greedyResult =  greedy.findMinRoute(tsp, initalNode);
 
-        System.out.println("Greedy end");
-
-        long startTime = System.nanoTime();
-        System.out.println("Genetic start");
-
-        ÜberSalesmensch geneticAlgorithm = new ÜberSalesmensch(n, SelectionType.TOURNAMENT, tsp, initalNode, 0);
-
-        SalesmanGenome result = geneticAlgorithm.optimize(greedyResult);
-        System.out.println("Genetic end");
-
         long endTime = System.nanoTime();
         double time = endTime-startTime;
+        time = (double) (endTime-startTime)/1000000000;
         System.out.println("Time taken = "+time);
 
+        System.out.println("Greedy end");
 
-
+        ÜberSalesmensch geneticAlgorithm = new ÜberSalesmensch(n, SelectionType.TOURNAMENT, tsp, initalNode, 0);
+        SalesmanGenome result = geneticAlgorithm.optimize(greedyResult);
 
         System.out.println(result);
     }

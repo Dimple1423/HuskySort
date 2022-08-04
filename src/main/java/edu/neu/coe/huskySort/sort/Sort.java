@@ -42,6 +42,7 @@ public interface Sort<X> extends GenericSort<X> {
      * @param makeCopy if set to true, we make a copy first and sort that.
      */
     default X[] sort(final X[] xs, final boolean makeCopy) {
+        System.out.println("In  sort");
         final X[] result = preSort(xs, makeCopy);
         sort(result, 0, result.length);
         return postSort(result);
