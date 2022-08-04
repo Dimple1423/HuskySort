@@ -1,8 +1,8 @@
-package edu.neu.coe.huskySort.travellingSalesmanProblem;
+package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem;
 
-import edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm.SalesmanGenome;
-import edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm.SelectionType;
-import edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm.ÜberSalesmensch;
+import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.ÜberSalesmensch;
+import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.SalesmanGenome;
+import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.SelectionType;
 
 import java.util.List;
 import java.util.Random;

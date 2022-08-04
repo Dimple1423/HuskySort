@@ -1,4 +1,4 @@
-package edu.neu.coe.huskySort.travellingSalesmanProblem.geneticAlgorithm;
+package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
