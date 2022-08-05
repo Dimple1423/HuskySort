@@ -23,6 +23,14 @@ public class GeneticSalesmanGenome implements Comparable {
         fitness = this.calculateFitness();
     }
 
+    public GeneticSalesmanGenome(int numberOfCities, List<Integer> genome, int[][] travelPrices, int startingCity){
+        this.travelPrices = travelPrices;
+        this.startingCity = startingCity;
+        this.numberOfCities = numberOfCities;
+        this.genome = genome;
+        fitness = this.calculateFitness();
+    }
+
     public GeneticSalesmanGenome(List<Integer> permutationOfCities, int numberOfCities, int[][] travelPrices, int startingCity){
         genome = permutationOfCities;
         this.travelPrices = travelPrices;
