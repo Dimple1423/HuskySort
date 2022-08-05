@@ -247,6 +247,39 @@ public class QuickSort_BasicTest {
         System.out.println("ratio of compares to swaps: " + compares*1.0/swaps);
     }
 
+    @Test
+    public void testSortDetailed1() throws Exception {
+        int k = 7;
+        int N = (int) Math.pow(2, k);
+        N =7;
+        // NOTE this depends on the cutoff value for quick sort.
+        int levels = k - 2;
+        final Config config = ConfigTest.setupConfig("true", "0", "1", "1", "");
+        final ComparisonSortHelper<Integer> helper = (ComparisonSortHelper<Integer>) HelperFactory.create("quick sort standard", N, config);
+        System.out.println(helper);
+        Sort<Integer> s = new QuickSort_Basic<>(helper);
+        s.init(N);
+        final Integer[] xs = {3,6,4,5,8,2,9};
+        assertEquals(Integer.valueOf(3), xs[0]);
+        helper.preProcess(xs);
+        Integer[] ys = s.sort(xs);
+        assertTrue(helper.sorted(ys));
+        helper.postProcess(ys);
+        final PrivateMethodInvoker privateMethodTester = new PrivateMethodInvoker(helper);
+        final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
+        System.out.println(statPack);
+        final int compares = (int) statPack.getStatistics(Instrumenter.COMPARES).mean();
+        final int inversions = (int) statPack.getStatistics(Instrumenter.INVERSIONS).mean();
+        final int fixes = (int) statPack.getStatistics(Instrumenter.FIXES).mean();
+        final int swaps = (int) statPack.getStatistics(Instrumenter.SWAPS).mean();
+        final int copies = (int) statPack.getStatistics(Instrumenter.COPIES).mean();
+        final int worstCompares = round(2.0 * N * Math.log(N));
+        final int bestCompares = round(N * k);
+        System.out.println("bestCompares: " + bestCompares + ", compares: " + compares + ", worstCompares: " + worstCompares);
+        assertTrue(compares <= worstCompares);
+        System.out.println("ratio of compares to swaps: " + compares*1.0/swaps);
+    }
+
 //    @Test
 //    public void testPartitionWithSort() {
 //        String[] xs = new String[]{"g", "f", "e", "d", "c", "b", "a"};

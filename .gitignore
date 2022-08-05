@@ -36,3 +36,4 @@ ExtendedHelper/
 shuffledChinese.txt
 
 src/main/resources/Chinese_Names_Corpus.txt
+src/result.csv
