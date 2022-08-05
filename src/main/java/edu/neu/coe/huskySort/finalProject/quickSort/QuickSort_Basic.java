@@ -59,7 +59,7 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
 
     public class Partitioner_Basic implements Partitioner<X> {
 
-        public Partitioner_Basic(Helper<X> helper) {
+        public Partitioner_Basic(ComparisonSortHelper<X> helper) {
             this.helper = helper;
         }
 
@@ -80,11 +80,10 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
             // NOTE: we are trying to avoid checking on instrumented for every time in the inner loop for performance reasons (probably a silly idea).
             // NOTE: if we were using Scala, it would be easy to set up a comparer function and a swapper function. With java, it's possible but much messier.
             if (helper.instrumented()) {
-                helper.incrementCopies(1);
                 while (true) {
-                    while (i < hi && helper.invertedPure(xs[++i], v)) {
+                    while (i < hi && helper.compare(xs[++i], v)<0) {
                     }
-                    while (j > from && helper.invertedPure(v, xs[--j])) {
+                    while (j > from && helper.compare(v, xs[--j])<0) {
                     }
                     if (i >= j) break;
                     helper.swap(xs, i, j);
@@ -112,7 +111,7 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
             ys[j] = temp;
         }
 
-        private final Helper<X> helper;
+        private final ComparisonSortHelper<X> helper;
 
     }
 
