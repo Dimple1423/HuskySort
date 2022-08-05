@@ -155,6 +155,7 @@ public final class InstrumentedComparisonSortHelper<X extends Comparable<X>> ext
      */
     @Override
     public int compare(final X v, final X w) {
+
         instrumenter.incrementCompares();
         return v.compareTo(w);
     }

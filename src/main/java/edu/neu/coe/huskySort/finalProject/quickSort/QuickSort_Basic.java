@@ -91,11 +91,11 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
                 helper.swap(xs, from, j);
             }
             else {
-            while (true) {
-                while (i < hi && xs[++i].compareTo(v) < 0) {}
-                while (j > from && xs[--j].compareTo(v) > 0) {}
-                if (i >= j) break;
-                swap(xs, i, j);
+                while (true) {
+                    while (i < hi && xs[++i].compareTo(v) < 0) {}
+                    while (j > from && xs[--j].compareTo(v) > 0) {}
+                    if (i >= j) break;
+                    swap(xs, i, j);
             }
             swap(xs, from, j);
             }

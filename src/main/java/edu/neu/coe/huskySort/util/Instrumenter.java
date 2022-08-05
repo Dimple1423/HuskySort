@@ -121,7 +121,7 @@ public class Instrumenter implements Instrumented {
     }
 
     // NOTE: the following private methods are only for testing.
-    private int getCompares() {
+    public int getCompares() {
         return compares;
     }
 
