@@ -1,4 +1,4 @@
-package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm;
+package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticGreedyAlgorithm;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,14 +8,14 @@ import java.util.ArrayList;
  * @author Dimpleben Kanjibhai Patel
  */
 
-public class SalesmanGenome implements Comparable {
+public class GeneticGreedySalesmanGenome implements Comparable {
     List<Integer> genome;
     int[][] travelPrices;
     int startingCity;
     int numberOfCities = 0;
     int fitness;
 
-    public SalesmanGenome(int numberOfCities, int[][] travelPrices, int startingCity){
+    public GeneticGreedySalesmanGenome(int numberOfCities, int[][] travelPrices, int startingCity){
         this.travelPrices = travelPrices;
         this.startingCity = startingCity;
         this.numberOfCities = numberOfCities;
@@ -23,7 +23,15 @@ public class SalesmanGenome implements Comparable {
         fitness = this.calculateFitness();
     }
 
-    public SalesmanGenome(List<Integer> permutationOfCities, int numberOfCities, int[][] travelPrices, int startingCity){
+    public GeneticGreedySalesmanGenome(int numberOfCities, List<Integer> genome, int[][] travelPrices, int startingCity){
+        this.travelPrices = travelPrices;
+        this.startingCity = startingCity;
+        this.numberOfCities = numberOfCities;
+        this.genome = genome;
+        fitness = this.calculateFitness();
+    }
+
+    public GeneticGreedySalesmanGenome(List<Integer> permutationOfCities, int numberOfCities, int[][] travelPrices, int startingCity){
         genome = permutationOfCities;
         this.travelPrices = travelPrices;
         this.startingCity = startingCity;
@@ -71,15 +79,16 @@ public class SalesmanGenome implements Comparable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Path: ");
-        sb.append(startingCity);
-        for ( int gene: genome ) {
-            sb.append(" ");
-            sb.append(gene);
-        }
-        sb.append(" ");
-        sb.append(startingCity);
-        sb.append("\nGenetic:Minimum Cost is: ");
+//        sb.append("Genetic Result: \n");
+//        sb.append("Path: ");
+//        sb.append(startingCity);
+//        for ( int gene: genome ) {
+//            sb.append(" ");
+//            sb.append(gene);
+//        }
+//        sb.append(" ");
+//        sb.append(startingCity);
+        sb.append("Minimum Cost: ");
         sb.append(this.fitness);
         return sb.toString();
     }
@@ -87,7 +96,7 @@ public class SalesmanGenome implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        SalesmanGenome genome = (SalesmanGenome) o;
+        GeneticGreedySalesmanGenome genome = (GeneticGreedySalesmanGenome) o;
         if(this.fitness > genome.getFitness())
             return 1;
         else if(this.fitness < genome.getFitness())

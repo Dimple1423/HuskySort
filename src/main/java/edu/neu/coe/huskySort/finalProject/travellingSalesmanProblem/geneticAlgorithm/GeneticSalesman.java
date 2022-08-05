@@ -1,4 +1,6 @@
-package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticGreedyAlgorithm;
+package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm;
+
+import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.SelectionType;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -6,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.*;
 
-public class ÜberSalesmensch {
+public class GeneticSalesman {
     private int generationSize;
     private int genomeSize;
     private int numberOfCities;
@@ -19,7 +21,7 @@ public class ÜberSalesmensch {
     private int startingCity;
     private int targetFitness;
 
-    public ÜberSalesmensch(int numberOfCities, SelectionType selectionType, int[][] travelPrices, int startingCity, int targetFitness){
+    public GeneticSalesman(int numberOfCities, SelectionType selectionType, int[][] travelPrices, int startingCity, int targetFitness){
         this.numberOfCities = numberOfCities;
         this.genomeSize = numberOfCities-1;
         this.selectionType = selectionType;
@@ -29,22 +31,22 @@ public class ÜberSalesmensch {
 
         generationSize = 5000;
         reproductionSize = 200;
-        maxIterations = 1000;
+        maxIterations = 2200;
         mutationRate = 0.1f;
         tournamentSize = 40;
     }
 
-    public List<SalesmanGenome> initialPopulation(){
-        List<SalesmanGenome> population = new ArrayList<>();
-        for(int i=1; i<generationSize; i++){
-            population.add(new SalesmanGenome(numberOfCities, travelPrices, startingCity));
+    public List<GeneticSalesmanGenome> initialPopulation(){
+        List<GeneticSalesmanGenome> population = new ArrayList<>();
+        for(int i=0; i<generationSize; i++){
+            population.add(new GeneticSalesmanGenome(numberOfCities, travelPrices, startingCity));
         }
         return population;
     }
 
-    public List<SalesmanGenome> selection(List<SalesmanGenome> population){
-        List<SalesmanGenome> selected = new ArrayList<>();
-        SalesmanGenome winner;
+    public List<GeneticSalesmanGenome> selection(List<GeneticSalesmanGenome> population){
+        List<GeneticSalesmanGenome> selected = new ArrayList<>();
+        GeneticSalesmanGenome winner;
         for(int i=0; i<reproductionSize; i++){
             if(selectionType == SelectionType.ROULETTE){
                 selected.add(rouletteSelection(population));
@@ -57,13 +59,13 @@ public class ÜberSalesmensch {
         return selected;
     }
 
-    public SalesmanGenome rouletteSelection(List<SalesmanGenome> population){
-        int totalFitness = population.stream().map(SalesmanGenome::getFitness).mapToInt(Integer::intValue).sum();
+    public GeneticSalesmanGenome rouletteSelection(List<GeneticSalesmanGenome> population){
+        int totalFitness = population.stream().map(GeneticSalesmanGenome::getFitness).mapToInt(Integer::intValue).sum();
         Random random = new Random();
         int selectedValue = random.nextInt(totalFitness);
         float recValue = (float) 1/selectedValue;
         float currentSum = 0;
-        for(SalesmanGenome genome : population){
+        for(GeneticSalesmanGenome genome : population){
             currentSum += (float) 1/genome.getFitness();
             if(currentSum>=recValue){
                 return genome;
@@ -73,10 +75,9 @@ public class ÜberSalesmensch {
         return population.get(selectRandom);
     }
 
-    public static <E> List<E> pickNRandomElements(List<SalesmanGenome> list, int n) {
+    public static <E> List<E> pickNRandomElements(List<E> list, int n) {
         Random r = new Random();
         int length = list.size();
-
 
         if (length < n) return null;
 
@@ -84,35 +85,31 @@ public class ÜberSalesmensch {
         {
             Collections.swap(list, i , r.nextInt(i + 1));
         }
-        List<SalesmanGenome> selected = new ArrayList<SalesmanGenome>();
-        Collections.min(list);
-        selected.add(Collections.min(list));
-        selected.addAll(list.subList(length - n, length));
-        return (List<E>)selected;
+        return list.subList(length - n, length);
     }
 
-    public SalesmanGenome tournamentSelection(List<SalesmanGenome> population){
-        List<SalesmanGenome> selected = pickNRandomElements(population,tournamentSize);
+    public GeneticSalesmanGenome tournamentSelection(List<GeneticSalesmanGenome> population){
+        List<GeneticSalesmanGenome> selected = pickNRandomElements(population,tournamentSize);
         return Collections.min(selected);
     }
 
-    public SalesmanGenome mutate(SalesmanGenome salesman){
+    public GeneticSalesmanGenome mutate(GeneticSalesmanGenome salesman){
         Random random = new Random();
         float mutate = random.nextFloat();
         if(mutate<mutationRate) {
             List<Integer> genome = salesman.getGenome();
             Collections.swap(genome, random.nextInt(genomeSize), random.nextInt(genomeSize));
-            return new SalesmanGenome(genome, numberOfCities, travelPrices, startingCity);
+            return new GeneticSalesmanGenome(genome, numberOfCities, travelPrices, startingCity);
         }
         return salesman;
     }
 
-    public List<SalesmanGenome> createGeneration(List<SalesmanGenome> population){
-        List<SalesmanGenome> generation = new ArrayList<>();
+    public List<GeneticSalesmanGenome> createGeneration(List<GeneticSalesmanGenome> population){
+        List<GeneticSalesmanGenome> generation = new ArrayList<>();
         int currentGenerationSize = 0;
         while(currentGenerationSize < generationSize){
-            List<SalesmanGenome> parents = pickNRandomElements(population,2);
-            List<SalesmanGenome> children = crossover(parents);
+            List<GeneticSalesmanGenome> parents = pickNRandomElements(population,2);
+            List<GeneticSalesmanGenome> children = crossover(parents);
             children.set(0, mutate(children.get(0)));
             children.set(1, mutate(children.get(1)));
             generation.addAll(children);
@@ -121,11 +118,11 @@ public class ÜberSalesmensch {
         return generation;
     }
 
-    public List<SalesmanGenome> crossover(List<SalesmanGenome> parents){
+    public List<GeneticSalesmanGenome> crossover(List<GeneticSalesmanGenome> parents){
         // housekeeping
         Random random = new Random();
         int breakpoint = random.nextInt(genomeSize);
-        List<SalesmanGenome> children = new ArrayList<>();
+        List<GeneticSalesmanGenome> children = new ArrayList<>();
 
         // copy parental genomes - we copy so we wouldn't modify in case they were
         // chosen to participate in crossover multiple times
@@ -138,7 +135,7 @@ public class ÜberSalesmensch {
             newVal = parent2Genome.get(i);
             Collections.swap(parent1Genome,parent1Genome.indexOf(newVal),i);
         }
-        children.add(new SalesmanGenome(parent1Genome,numberOfCities,travelPrices,startingCity));
+        children.add(new GeneticSalesmanGenome(parent1Genome,numberOfCities,travelPrices,startingCity));
         parent1Genome = parents.get(0).getGenome(); // reseting the edited parent
 
         // creating child 2
@@ -146,41 +143,26 @@ public class ÜberSalesmensch {
             int newVal = parent1Genome.get(i);
             Collections.swap(parent2Genome,parent2Genome.indexOf(newVal),i);
         }
-        children.add(new SalesmanGenome(parent2Genome,numberOfCities,travelPrices,startingCity));
+        children.add(new GeneticSalesmanGenome(parent2Genome,numberOfCities,travelPrices,startingCity));
 
         return children;
     }
 
-    public SalesmanGenome optimize(List<Integer> greedyResult){
-        List<SalesmanGenome> population = initialPopulation();
-        greedyResult.remove(0);
-        population.add(new SalesmanGenome(numberOfCities,greedyResult, travelPrices, startingCity));
-
-        SalesmanGenome globalBestGenome = population.get(0);
+    public int optimize(){
+        List<GeneticSalesmanGenome> population = initialPopulation();
+        GeneticSalesmanGenome globalBestGenome = population.get(0);
         List<Integer> fitness = new ArrayList<>();
         for(int i=0; i<maxIterations; i++){
-
-            System.out.println("Genetic start");
-
-            long startTime = System.nanoTime();
-
-            List<SalesmanGenome> selected = selection(population);
+            List<GeneticSalesmanGenome> selected = selection(population);
             population = createGeneration(selected);
             globalBestGenome = Collections.min(population);
             if(globalBestGenome.getFitness() < targetFitness)
                 break;
             fitness.add(globalBestGenome.fitness);
-            System.out.println(i + " " + globalBestGenome);
-
-            long endTime = System.nanoTime();
-            double time = (double) (endTime-startTime)/1000000000;
-            System.out.println("Time taken = "+time);
-
-            System.out.println("Genetic end");
-
         }
+
         try {
-            FileOutputStream fis = new FileOutputStream("./src/result.csv");
+            FileOutputStream fis = new FileOutputStream("./src/GeneticResult_"+numberOfCities+".csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
             BufferedWriter bw = new BufferedWriter(isr);
             int j = 1;
@@ -195,11 +177,11 @@ public class ÜberSalesmensch {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return globalBestGenome;
+        return globalBestGenome.fitness;
     }
 
-    public void printGeneration(List<SalesmanGenome> generation ){
-        for( SalesmanGenome genome : generation){
+    public void printGeneration(List<GeneticSalesmanGenome> generation ){
+        for( GeneticSalesmanGenome genome : generation){
             System.out.println(genome);
         }
     }
