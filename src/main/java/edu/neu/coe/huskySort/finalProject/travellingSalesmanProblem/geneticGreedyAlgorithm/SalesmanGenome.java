@@ -1,4 +1,4 @@
-package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm;
+package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticGreedyAlgorithm;
 
 import java.util.Collections;
 import java.util.List;

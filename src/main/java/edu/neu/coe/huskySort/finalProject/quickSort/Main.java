@@ -25,14 +25,14 @@ public class Main {
     public static void main(String args[]) throws IOException {
 
         int k=2;
-        int sizeK = 25;
+        int sizeK = 21;
 
         double[] meanSwap = new double[sizeK-k];
         double[] meanCompare = new double[sizeK-k];
         double[] meanRatio = new double[sizeK-k];
         int j = 0;
 
-        for(k = 10; k < sizeK; k++) {
+        for(k = 2; k < sizeK; k++) {
             int N = (int) Math.pow(2, k);
             int levels = k - 2;
             final Config config = Config.setupConfig("true", "", "", "", "");
@@ -45,6 +45,7 @@ public class Main {
             double swap = 0.0;
             double compare = 0.0;
             double ratio = 0.0;
+
             for(int i = 0; i< THOUSAND; i++){
 
                 final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
