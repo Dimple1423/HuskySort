@@ -255,7 +255,7 @@ public class QuickSort_BasicTest {
         // NOTE this depends on the cutoff value for quick sort.
         int levels = k - 2;
         final Config config = ConfigTest.setupConfig("true", "0", "1", "1", "");
-        final ComparisonSortHelper<Integer> helper = (ComparisonSortHelper<Integer>) HelperFactory.create("quick sort dual pivot", N, config);
+        final ComparisonSortHelper<Integer> helper = (ComparisonSortHelper<Integer>) HelperFactory.create("quick sort standard", N, config);
         System.out.println(helper);
         Sort<Integer> s = new QuickSort_Basic<>(helper);
         s.init(N);

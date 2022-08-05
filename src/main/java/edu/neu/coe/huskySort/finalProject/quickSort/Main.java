@@ -24,8 +24,8 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
 
-        int k=10;
-        int sizeK = 13;
+        int k=2;
+        int sizeK = 25;
 
         double[] meanSwap = new double[sizeK-k];
         double[] meanCompare = new double[sizeK-k];

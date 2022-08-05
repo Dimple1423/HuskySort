@@ -58,7 +58,6 @@ public abstract class QuickSort<X extends Comparable<X>> extends SortWithHelper<
         if (partitioner == null) throw new RuntimeException("partitioner not set");
         final List<Partition<X>> partitions = partitioner.partition(partition);
         partitions.forEach(p -> sort(p.xs, p.from, p.to, depth + 1));
-
     }
 
     /**
@@ -72,9 +71,10 @@ public abstract class QuickSort<X extends Comparable<X>> extends SortWithHelper<
      * @return true if there is no further work to be done.
      */
     protected boolean terminator(final X[] xs, final int from, final int to, final int depth) {
-        @SuppressWarnings("UnnecessaryLocalVariable") final int lo = from;
+        final int lo = from;
         if (to <= lo + getHelper().getCutoff()) {
-            insertionSort.sort(xs, from, to);
+            if(getHelper().getCutoff() > 1)
+                insertionSort.sort(xs, from, to);
             return true;
         }
         return false;
