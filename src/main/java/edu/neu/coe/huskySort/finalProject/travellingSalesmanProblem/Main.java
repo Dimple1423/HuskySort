@@ -1,8 +1,8 @@
 package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem;
 
-import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.ÜberSalesmensch;
-import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.SalesmanGenome;
-import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.SelectionType;
+import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticGreedyAlgorithm.ÜberSalesmensch;
+import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticGreedyAlgorithm.SalesmanGenome;
+import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticGreedyAlgorithm.SelectionType;
 import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.greedyAlgorithm.Greedy;
 
 import java.util.List;
