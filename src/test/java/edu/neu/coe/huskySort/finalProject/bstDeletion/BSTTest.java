@@ -2,7 +2,7 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.huskySort.finalProject.quickSort;
+package edu.neu.coe.huskySort.finalProject.bstDeletion;
 
 import edu.neu.coe.huskySort.finalProject.bstDeletion.BST;
 import edu.neu.coe.huskySort.finalProject.bstDeletion.BSTSimple;
