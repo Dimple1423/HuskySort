@@ -277,6 +277,19 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         }
     }
 
+
+    public void inOrder() {
+        inOrder(root);
+    }
+    private void inOrder(BSTSimple.Node x) {
+        if (x == null) {
+            return;
+        }
+
+        inOrder(x.smaller);
+        System.out.printf("%s ", x.key);
+        inOrder(x.larger);
+    }
     public String toString() {
         StringBuffer sb = new StringBuffer();
         show(root, sb, 0);

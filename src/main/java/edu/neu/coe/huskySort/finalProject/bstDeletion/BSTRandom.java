@@ -1,5 +1,7 @@
 package edu.neu.coe.huskySort.finalProject.bstDeletion;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BSTRandom<Key extends Comparable<Key>, Value> {
@@ -46,6 +48,7 @@ public class BSTRandom<Key extends Comparable<Key>, Value> {
             x.right = put(x.right, key, val);
         else if (cmp == 0)
             x.val = val;
+        x.count = 1+ size(x.left) + size(x.right);
         return x;
     }
     public Value get(Key key)
@@ -133,28 +136,6 @@ public class BSTRandom<Key extends Comparable<Key>, Value> {
         return x;
     }
 
-
-
-//    public void delete(Key key)
-//    { root = delete(root, key); }
-//    private Node delete(Node x, Key key) {
-//        if (x == null) return null;
-//        int cmp = key.compareTo(x.key);
-//        if (cmp < 0) x.left = delete(x.left, key);
-//        else if (cmp > 0) x.right = delete(x.right, key);
-//        else {
-//            if (x.right == null) return x.left;
-//            if (x.left == null) return x.right;
-//            Node t = x;
-//            x = min(t.right);
-//            x.right = deleteMin(t.right);
-//            x.left = t.left;
-//        }
-//        x.count = size(x.left) + size(x.right) + 1;
-//        return x;
-//    }
-
-
     public boolean isEmpty() {
         return size() == 0;
     }
@@ -211,29 +192,42 @@ public class BSTRandom<Key extends Comparable<Key>, Value> {
 
 
     public static void main(String[] args){
-        BSTRandom tree = new BSTRandom();
+
+        BSTRandom bRandom = new BSTRandom();
+
         Random r = new Random();
-        int n=100000;
+        List<Integer> list=new ArrayList<>();
+        int n=512;
+
         int t=0;
-        int[] rand = new int[n];
+        // int[] rand = new int[n];
 
         for(int i=0; i<n; i++){
-            t = r.nextInt(10000000);
-            rand[i] = t;
+            t = r.nextInt(1000);
+            //rand[i] = t;
 //            System.out.print(t+" ");
-            tree.put(t,t);
-
-        }
-        tree.inOrder();
-        for(int i=0; i<1000; i++){
-            int a = r.nextInt(n);
-            tree.delete(a);
+            bRandom.put(t,t);
+            list.add(t);
         }
 
+       System.out.println("Random Size = " + bRandom.size());
+        System.out.println("Random Height = " + bRandom.height());
+
+//        bRandom.inOrder();
+//        for(int i=0; i<n/2; i++){
+//            int a = r.nextInt(list.size());
+//            bRandom.delete(list.get(a));
+//            list.remove(a);
+//
+//
+//        }
+
+
         System.out.println(" ");
-        tree.inOrder();
+//        bRandom.inOrder();
+//         System.out.println("Random Size = " + bRandom.size());
         System.out.println(" ");
-        System.out.println("Height = " + tree.height());
+        System.out.println("Random Height = " + bRandom.height());
 
 
 
