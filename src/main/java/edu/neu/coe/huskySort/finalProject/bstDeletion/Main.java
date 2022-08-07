@@ -15,12 +15,13 @@ public class Main {
     public static void main(String[] args){
 
         try {
-            fis = new FileOutputStream("./src/BSTDeletion_10.csv");
+            fis = new FileOutputStream("./src/BSTDeletion.csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
             BufferedWriter bw = new BufferedWriter(isr);
 
-            String content =  "Number of Nodes before deletion, Number of Nodes after deletion, " +
-                    "BST Simple Deletion Depth, BST Random Deletion Depth, BST Optimized Deletion Depth, Theoretical Height\n" ;
+            String content =  "No. of Nodes before deletion(N), No. of Nodes after deletion(Z), " +
+                    "Simple Deletion Depth(P), Random Deletion Depth(Q), Optimized Deletion Depth(R), " +
+                    "Theoretical Depth(H), P/H*100, Q/H*100, R/H*100, log N(L)\n" ;
             bw.write(content);
             bw.flush();
 
@@ -37,7 +38,7 @@ public class Main {
 
         int size = 0;
 
-        for(int n=8; n<=16777216; n*=2) {
+        for(int n=8; n<=2048*1024; n*=2) {
 
             double simpleAvg=0.0;
             double randomAvg=0.0;
@@ -46,7 +47,7 @@ public class Main {
             System.out.println();
             System.out.println("---------------------------------------N="+n+"---------------------------------------");
 
-            for(int iteration=0; iteration<1; iteration++) {
+            for(int iteration=0; iteration<1000; iteration++) {
 
                 BSTSimple<Integer, Integer> bstSimple = new BSTSimple<Integer, Integer>();
                 BSTRandomDeletion<Integer,Integer> bstRandom = new BSTRandomDeletion<Integer,Integer>();
@@ -83,7 +84,10 @@ public class Main {
 
     private static void writeInFile(BufferedWriter bw, int n, int size, double simpleAvg, double randomAvg, double optimizedAvg) throws IOException {
 
-        String content = n + "," + size + "," + simpleAvg + "," + randomAvg + "," + optimizedAvg + "," + Math.sqrt(size) +"\n";
+        double sqrtOfSize = Math.sqrt(size);
+        String content = n + "," + size + "," + simpleAvg + "," + randomAvg + "," + optimizedAvg + "," + sqrtOfSize + "," +
+                simpleAvg/sqrtOfSize*100 + "," + randomAvg/sqrtOfSize*100 + "," + optimizedAvg/sqrtOfSize*100 + "," +
+                (Math.log(size) / Math.log(2)) + "\n";
         bw.write(content);
         bw.flush();
     }
