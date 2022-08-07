@@ -1,63 +1,115 @@
 package edu.neu.coe.huskySort.finalProject.bstDeletion;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Main {
-    public static void main(String[] args){
-        BSTSimple bSimple = new BSTSimple();
-        BSTRandom bRandom = new BSTRandom();
-        BSTOptimisedDelete bOd = new BSTOptimisedDelete();
-        Random r = new Random();
-        List<Integer> list=new ArrayList<>();
-        int n=512;
 
-        int t=0;
-       // int[] rand = new int[n];
+    static FileOutputStream fis;
+
+    public static void main(String[] args){
+
+        try {
+            fis = new FileOutputStream("./src/BSTDeletion_10.csv");
+            OutputStreamWriter isr = new OutputStreamWriter(fis);
+            BufferedWriter bw = new BufferedWriter(isr);
+
+            String content =  "Number of Nodes before deletion, Number of Nodes after deletion, " +
+                    "BST Simple Deletion Depth, BST Random Deletion Depth, BST Optimized Deletion Depth, Theoretical Height\n" ;
+            bw.write(content);
+            bw.flush();
+
+            processing(bw);
+
+            bw.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void processing(BufferedWriter bw) throws IOException {
+
+        int size = 0;
+
+        for(int n=8; n<=16777216; n*=2) {
+
+            double simpleAvg=0.0;
+            double randomAvg=0.0;
+            double optimizedAvg=0.0;
+
+            System.out.println();
+            System.out.println("---------------------------------------N="+n+"---------------------------------------");
+
+            for(int iteration=0; iteration<1; iteration++) {
+
+                BSTSimple<Integer, Integer> bstSimple = new BSTSimple<Integer, Integer>();
+                BSTRandomDeletion<Integer,Integer> bstRandom = new BSTRandomDeletion<Integer,Integer>();
+                BSTOptimisedDeletion<Integer, Integer> bstOptimisedDeletion = new BSTOptimisedDeletion<Integer,Integer>();
+                Random r = new Random();
+                List<Integer> list = new ArrayList<>();
+                int t=0;
+                
+                put(t, bstSimple, bstRandom, bstOptimisedDeletion, list, n, r);
+                delete(t, bstSimple, bstRandom, bstOptimisedDeletion, list, n, r);
+
+                size = bstSimple.size();
+
+                simpleAvg += bstSimple.depth();
+                randomAvg += bstRandom.depth();
+                optimizedAvg += bstOptimisedDeletion.depth();
+
+            }
+
+            simpleAvg /= 1000;
+            randomAvg /= 1000;
+            optimizedAvg /= 1000;
+
+            writeInFile(bw, n, size, simpleAvg, randomAvg, optimizedAvg);
+
+            System.out.println("Size = " + size);
+            System.out.println("Theoretical Height=" + Math.sqrt(size));
+            System.out.println("Simple Height = " + simpleAvg);
+            System.out.println("Random Height = " + randomAvg);
+            System.out.println("Optimized Height = " + optimizedAvg);
+        }
+
+    }
+
+    private static void writeInFile(BufferedWriter bw, int n, int size, double simpleAvg, double randomAvg, double optimizedAvg) throws IOException {
+
+        String content = n + "," + size + "," + simpleAvg + "," + randomAvg + "," + optimizedAvg + "," + Math.sqrt(size) +"\n";
+        bw.write(content);
+        bw.flush();
+    }
+
+    private static void delete(int t, BSTSimple<Integer, Integer> bstSimple, BSTRandomDeletion<Integer, Integer> bstRandom,
+                               BSTOptimisedDeletion<Integer, Integer> bstOptimisedDeletion, List<Integer> list, int n, Random r) {
+
+        for(int i=0; i<n/2; i++){
+            int index = r.nextInt(list.size());
+            bstSimple.delete(list.get(index));
+            bstRandom.delete(list.get(index));
+            bstOptimisedDeletion.delete(list.get(index));
+            list.remove(index);
+        }
+    }
+
+    private static void put(int t, BSTSimple<Integer, Integer> bstSimple, BSTRandomDeletion<Integer, Integer> bstRandom,
+                            BSTOptimisedDeletion<Integer, Integer> bstOptimisedDeletion, List<Integer> list, int n, Random r) {
 
         for(int i=0; i<n; i++){
-            t = r.nextInt(1000);
-            //rand[i] = t;
-//            System.out.print(t+" ");
-            bSimple.put(t,t);
-            bOd.put(t,t);
+            t = r.nextInt(1000000000);
+            bstSimple.put(t,t);
+            bstRandom.put(t,t);
+            bstOptimisedDeletion.put(t,t);
             list.add(t);
-            //bRandom.put(t,t);
-            bOd.put(t,t);
         }
-        System.out.println("Simple Size = " + bSimple.size());
-//        System.out.println("Random Size = " + bRandom.size());
-        System.out.println("Optimized Size = " + bOd.size());
-        System.out.println("Simple Height = " + bSimple.depth());
-//        System.out.println("Random Height = " + bRandom.height());
-        System.out.println("Optimized Height = " + bOd.depth());
-
-//        bRandom.inOrder();
-        for(int i=0; i<n/2; i++){
-            int a = r.nextInt(list.size());
-            bSimple.delete(list.get(a));
-            bOd.delete(list.get(a));
-            list.remove(a);
-            //bRandom.delete(rand[a]);
-
-        }
-
-
-        System.out.println(" ");
-//        bRandom.inOrder();
-        System.out.println("Simple Size = " + bSimple.size());
-//        System.out.println("Random Size = " + bRandom.size());
-        System.out.println("Optimized Size = " + bOd.size());
-        System.out.println(" ");
-        System.out.println("Simple Height = " + bSimple.depth());
-//        System.out.println("Random Height = " + bRandom.height());
-        System.out.println("Optimized Height = " + bOd.depth());
-
-
-
-
-
     }
 
 }

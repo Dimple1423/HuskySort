@@ -3,7 +3,13 @@ package edu.neu.coe.huskySort.finalProject.bstDeletion;
 import java.util.*;
 import java.util.function.BiFunction;
 
-public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
+/**
+ * Code by Pratik Hasmukh Hariya
+ *
+ * @param <Key>
+ * @param <Value>
+ */
+public class BSTRandomDeletion<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
     @Override
     public Boolean contains(Key key) {
         return get(key) != null;
@@ -72,10 +78,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         }
     }
 
-    public BSTSimple() {
+    public BSTRandomDeletion() {
     }
 
-    public BSTSimple(Map<Key, Value> map) {
+    public BSTRandomDeletion(Map<Key, Value> map) {
         this();
         putAll(map);
     }
@@ -131,8 +137,16 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         }
     }
 
+    public int size(Node node) {
+        if (node == null)
+            return 0;
+        else
+            return(size(node.smaller) + 1 + size(node.larger));
+    }
+
     // CONSIDER this should be an instance method of Node.
     private Node delete(Node x, Key key) {
+
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp < 0) x.smaller = delete(x.smaller, key);
@@ -141,17 +155,26 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
             if (x.larger == null) return x.smaller;
             if (x.smaller == null) return x.larger;
 
+            int leftDepth = depth(x.smaller);
+            int rightDepth = depth(x.larger);
+
             Node t = x;
-
-            x = min(t.larger);
-            x.larger = deleteMin(t.larger);
-            x.smaller = t.smaller;
-
+            Random r = new Random();
+            int selector = r.nextInt(2);
+            if(selector == 0) {
+                x = max(t.smaller);
+                x.smaller = deleteMax(t.smaller);
+                x.larger = t.larger;
+            }
+            else {
+                x = min(t.larger);
+                x.larger = deleteMin(t.larger);
+                x.smaller = t.smaller;
+            }
         }
         x.count = size(x.smaller) + size(x.larger) + 1;
         return x;
-
-        // END
+        // END 
     }
 
     private Node deleteMin(Node x) {
@@ -160,12 +183,22 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         x.count = 1 + size(x.smaller) + size(x.larger);
         return x;
     }
+    private Node deleteMax(Node x) {
+        if (x.larger == null) return x.smaller;
+        x.larger = deleteMax(x.larger);
+        x.count = 1 + size(x.smaller) + size(x.larger);
+        return x;
+    }
 
-    public int size(Node node) {
-        if (node == null)
-            return 0;
-        else
-            return(size(node.smaller) + 1 + size(node.larger));
+    private Node min(Node x) {
+        if (x == null) throw new RuntimeException("min not implemented for null");
+        else if (x.smaller == null) return x;
+        else return min(x.smaller);
+    }
+    private Node max(Node x) {
+        if (x == null) throw new RuntimeException("max not implemented for null");
+        else if (x.larger == null) return x;
+        else return max(x.larger);
     }
 
     /**
@@ -190,7 +223,14 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
      * @return the total number of levels in this BST.
      */
     public int depth() {
-        return root!=null ? root.depth() : 0;
+        return depth(root);
+    }
+
+    private int depth(Node node) {
+        if (node == null) return 0;
+        int depthS = depth(node.smaller);
+        int depthL = depth(node.larger);
+        return 1 + Math.max(depthL, depthS);
     }
 
     private class NodeValue {
@@ -213,16 +253,6 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
             this.key = key;
             this.value = value;
             this.depth = depth;
-        }
-
-        Node min() {
-            return smaller != null ? smaller.min() : this;
-        }
-
-        int depth() {
-            int depthS = smaller != null ? smaller.depth() : 0;
-            int depthL = larger != null ? larger.depth() : 0;
-            return 1 + Math.max(depthL, depthS);
         }
 
         final Key key;
@@ -309,11 +339,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
             if(node.larger != null)
                 queue.add(node.larger);
         }
+
     }
 
-    private Node min(Node x) {
-        if (x == null) throw new RuntimeException("min not implemented for null");
-        else if (x.smaller == null) return x;
-        else return min(x.smaller);
-    }
+
 }
+
+

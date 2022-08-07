@@ -18,6 +18,7 @@ import java.util.Random;
  * @author Dimpleben Kanjibhai Patel
  */
 public class Main {
+
     static FileOutputStream fis;
 
     public static void main(String args[]){

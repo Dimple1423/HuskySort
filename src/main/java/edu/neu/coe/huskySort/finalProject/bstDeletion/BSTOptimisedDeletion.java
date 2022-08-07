@@ -4,12 +4,12 @@ import java.util.*;
 import java.util.function.BiFunction;
 
 /**
- * Code by Abhishek Ravindra Satbhai
+ * Code by Pratik Hasmukh Hariya
  *
  * @param <Key>
  * @param <Value>
  */
-public class BSTOptimisedDelete<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
+public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
     @Override
     public Boolean contains(Key key) {
         return get(key) != null;
@@ -51,12 +51,7 @@ public class BSTOptimisedDelete<Key extends Comparable<Key>, Value> implements B
     }
 
     public void delete(Key key) {
-        if(depth(root.larger) > depth(root.smaller)){
-            root = deleteSuc(root,key);
-        }
-        else root = deletePre(root,key);
-
-
+        root = delete(root, key);
     }
 
     @Override
@@ -83,15 +78,15 @@ public class BSTOptimisedDelete<Key extends Comparable<Key>, Value> implements B
         }
     }
 
-    public BSTOptimisedDelete() {
+    public BSTOptimisedDeletion() {
     }
 
-    public BSTOptimisedDelete(Map<Key, Value> map) {
+    public BSTOptimisedDeletion(Map<Key, Value> map) {
         this();
         putAll(map);
     }
 
-    public Node root = null;
+    Node root = null;
 
     private Value get(Node node, Key key) {
         Node result = getNode(node, key);
@@ -150,57 +145,34 @@ public class BSTOptimisedDelete<Key extends Comparable<Key>, Value> implements B
     }
 
     // CONSIDER this should be an instance method of Node.
-//    private Node delete(Node x, Key key) {
-//
-//         return null;
-//        // END
-//    }
+    private Node delete(Node x, Key key) {
 
-    private Node deleteSuc(Node x, Key key) {
-
-//        System.out.println(select);
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if (cmp < 0) x.smaller = deleteSuc(x.smaller, key);
-        else if (cmp > 0) x.larger = deleteSuc(x.larger, key);
+        if (cmp < 0) x.smaller = delete(x.smaller, key);
+        else if (cmp > 0) x.larger = delete(x.larger, key);
         else {
             if (x.larger == null) return x.smaller;
             if (x.smaller == null) return x.larger;
-            deleteSuccessor(x);
+
+            int leftDepth = depth(x.smaller);
+            int rightDepth = depth(x.larger);
+
+            Node t = x;
+            if(leftDepth > rightDepth) {
+                x = max(t.smaller);
+                x.smaller = deleteMax(t.smaller);
+                x.larger = t.larger;
+            }
+            else {
+                x = min(t.larger);
+                x.larger = deleteMin(t.larger);
+                x.smaller = t.smaller;
+            }
         }
         x.count = size(x.smaller) + size(x.larger) + 1;
         return x;
-    }
-
-    private Node deletePre(Node x, Key key) {
-
-//        System.out.println(select);
-        if (x == null) return null;
-        int cmp = key.compareTo(x.key);
-        if (cmp < 0) x.smaller = deletePre(x.smaller, key);
-        else if (cmp > 0) x.larger = deletePre(x.larger, key);
-        else {
-            if (x.larger == null) return x.smaller;
-            if (x.smaller == null) return x.larger;
-            deletePredecessor(x);
-
-        }
-        x.count = size(x.smaller) + size(x.larger) + 1;
-        return x;
-    }
-
-    public void deleteSuccessor(Node x){
-        Node t = x;
-        x = min(t.larger);
-        x.larger = deleteMin(t.larger);
-        x.smaller = t.smaller;
-    }
-
-    public void deletePredecessor(Node x){
-        Node t = x;
-        x = max(t.smaller);
-        x.smaller = deleteMax(t.smaller);
-        x.larger = t.larger;
+        // END 
     }
 
     private Node deleteMin(Node x) {
@@ -274,18 +246,18 @@ public class BSTOptimisedDelete<Key extends Comparable<Key>, Value> implements B
         }
     }
 
-    public class Node {
+    class Node {
         Node(Key key, Value value, int depth) {
             this.key = key;
             this.value = value;
             this.depth = depth;
         }
 
-        public final Key key;
+        final Key key;
         Value value;
         final int depth;
-        public Node smaller = null;
-        public Node larger = null;
+        Node smaller = null;
+        Node larger = null;
         int count = 0;
 
         @Override
@@ -350,6 +322,22 @@ public class BSTOptimisedDelete<Key extends Comparable<Key>, Value> implements B
     private static class DepthException extends Exception {
         public DepthException() {
         }
+    }
+
+    public void levelOrderTraversal(Node root) {
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        System.out.println("----------------------------Level Order Traversal---------------------------");
+        while(queue.size() != 0) {
+            Node node = queue.peek();
+            System.out.print(node.value + " ");
+            queue.remove();
+            if(node.smaller != null)
+                queue.add(node.smaller);
+            if(node.larger != null)
+                queue.add(node.larger);
+        }
+
     }
 
 

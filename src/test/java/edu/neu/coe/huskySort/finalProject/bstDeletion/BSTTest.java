@@ -4,15 +4,14 @@
 
 package edu.neu.coe.huskySort.finalProject.bstDeletion;
 
+import edu.neu.coe.huskySort.bqs.Queue_Elements;
 import edu.neu.coe.huskySort.finalProject.bstDeletion.BST;
 import edu.neu.coe.huskySort.finalProject.bstDeletion.BSTSimple;
 import edu.neu.coe.huskySort.finalProject.bstDeletion.BstDetail;
 import edu.neu.coe.huskySort.util.PrivateMethodTester;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -238,5 +237,25 @@ public class BSTTest {
         bst.put("Goodbye", 5);
         bst.put("Ciao", 8);
         assertEquals(3, bst.depth());
+    }
+
+    @Test
+    public void testTraverse() throws Exception {
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
+        PrivateMethodTester tester = new PrivateMethodTester(bst);
+        Class[] classes = {Comparable.class, Object.class, int.class};
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 42, 0);
+        tester.invokePrivate("setRoot", node);
+        bst.put("X", 99);
+        bst.put("Z", 37);
+        Queue<String> queue = new LinkedList<String>();
+        bst.inOrderTraverse((w, x) -> {
+            queue.add(w);
+            return null;
+        });
+        assertEquals("X", queue.poll());
+        assertEquals("Y", queue.poll());
+        assertEquals("Z", queue.poll());
+        assertTrue(queue.isEmpty());
     }
 }
