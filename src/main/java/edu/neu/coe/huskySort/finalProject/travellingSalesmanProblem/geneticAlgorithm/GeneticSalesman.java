@@ -31,7 +31,7 @@ public class GeneticSalesman {
 
         generationSize = 5000;
         reproductionSize = 200;
-        maxIterations = 2200;
+        maxIterations = 5000;
         mutationRate = 0.1f;
         tournamentSize = 40;
     }
