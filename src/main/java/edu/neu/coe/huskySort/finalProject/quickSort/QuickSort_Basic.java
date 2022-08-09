@@ -81,23 +81,24 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
             // NOTE: if we were using Scala, it would be easy to set up a comparer function and a swapper function. With java, it's possible but much messier.
             if (helper.instrumented()) {
                 while (true) {
-                    while (i < hi && helper.compare(xs[++i], v)<0) {
+                    while (i < hi && helper.compare(xs[++i], v) < 0) {
                     }
-                    while (j > from && helper.compare(v, xs[--j])<0) {
+                    while (j > from && helper.compare(v, xs[--j]) < 0) {
                     }
                     if (i >= j) break;
                     helper.swap(xs, i, j);
                 }
                 helper.swap(xs, from, j);
-            }
-            else {
+            } else {
                 while (true) {
-                    while (i < hi && xs[++i].compareTo(v) < 0) {}
-                    while (j > from && xs[--j].compareTo(v) > 0) {}
+                    while (i < hi && xs[++i].compareTo(v) < 0) {
+                    }
+                    while (j > from && xs[--j].compareTo(v) > 0) {
+                    }
                     if (i >= j) break;
                     swap(xs, i, j);
-            }
-            swap(xs, from, j);
+                }
+                swap(xs, from, j);
             }
             List<Partition<X>> partitions = new ArrayList<>();
             partitions.add(new Partition<>(xs, from, j));
@@ -117,7 +118,6 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
 
     private int swaps;
     private int noOfComparisons;
-
 
 
 }
