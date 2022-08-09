@@ -24,9 +24,7 @@ public class Main {
                     "Theoretical Depth(H), P/H*100, Q/H*100, R/H*100, log N(L)\n" ;
             bw.write(content);
             bw.flush();
-
             processing(bw);
-
             bw.close();
         }
         catch (IOException e) {

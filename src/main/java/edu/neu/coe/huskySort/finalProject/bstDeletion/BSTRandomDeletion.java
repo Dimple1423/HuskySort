@@ -236,6 +236,7 @@ public class BSTRandomDeletion<Key extends Comparable<Key>, Value> implements Bs
         return 1 + Math.max(depthL, depthS);
     }
 
+
     private class NodeValue {
         private final Node node;
         private final Value value;
