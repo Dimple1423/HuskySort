@@ -141,7 +141,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         if (node == null)
             return 0;
         else
-            return(size(node.smaller) + 1 + size(node.larger));
+            return (size(node.smaller) + 1 + size(node.larger));
     }
 
     // CONSIDER this should be an instance method of Node.
@@ -159,12 +159,11 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
             int rightDepth = depth(x.larger);
 
             Node t = x;
-            if(leftDepth > rightDepth) {
+            if (leftDepth > rightDepth) {
                 x = max(t.smaller);
                 x.smaller = deleteMax(t.smaller);
                 x.larger = t.larger;
-            }
-            else {
+            } else {
                 x = min(t.larger);
                 x.larger = deleteMin(t.larger);
                 x.smaller = t.smaller;
@@ -181,6 +180,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         x.count = 1 + size(x.smaller) + size(x.larger);
         return x;
     }
+
     private Node deleteMax(Node x) {
         if (x.larger == null) return x.smaller;
         x.larger = deleteMax(x.larger);
@@ -193,6 +193,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         else if (x.smaller == null) return x;
         else return min(x.smaller);
     }
+
     private Node max(Node x) {
         if (x == null) throw new RuntimeException("max not implemented for null");
         else if (x.larger == null) return x;
@@ -328,13 +329,13 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         Queue<Node> queue = new LinkedList<>();
         queue.add(root);
         System.out.println("----------------------------Level Order Traversal---------------------------");
-        while(queue.size() != 0) {
+        while (queue.size() != 0) {
             Node node = queue.peek();
             System.out.print(node.value + " ");
             queue.remove();
-            if(node.smaller != null)
+            if (node.smaller != null)
                 queue.add(node.smaller);
-            if(node.larger != null)
+            if (node.larger != null)
                 queue.add(node.larger);
         }
 

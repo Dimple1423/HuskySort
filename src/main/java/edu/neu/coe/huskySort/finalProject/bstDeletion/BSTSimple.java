@@ -165,7 +165,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         if (node == null)
             return 0;
         else
-            return(size(node.smaller) + 1 + size(node.larger));
+            return (size(node.smaller) + 1 + size(node.larger));
     }
 
     /**
@@ -190,7 +190,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
      * @return the total number of levels in this BST.
      */
     public int depth() {
-        return root!=null ? root.depth() : 0;
+        return root != null ? root.depth() : 0;
     }
 
     private class NodeValue {
@@ -300,13 +300,13 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         Queue<Node> queue = new LinkedList<>();
         queue.add(root);
         System.out.println("----------------------------Level Order Traversal---------------------------");
-        while(queue.size() != 0) {
+        while (queue.size() != 0) {
             Node node = queue.peek();
             System.out.print(node.value + " ");
             queue.remove();
-            if(node.smaller != null)
+            if (node.smaller != null)
                 queue.add(node.smaller);
-            if(node.larger != null)
+            if (node.larger != null)
                 queue.add(node.larger);
         }
     }
