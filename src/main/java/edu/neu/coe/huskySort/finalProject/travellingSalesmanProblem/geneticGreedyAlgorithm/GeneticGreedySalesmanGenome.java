@@ -15,7 +15,7 @@ public class GeneticGreedySalesmanGenome implements Comparable {
     int numberOfCities = 0;
     int fitness;
 
-    public GeneticGreedySalesmanGenome(int numberOfCities, int[][] travelPrices, int startingCity){
+    public GeneticGreedySalesmanGenome(int numberOfCities, int[][] travelPrices, int startingCity) {
         this.travelPrices = travelPrices;
         this.startingCity = startingCity;
         this.numberOfCities = numberOfCities;
@@ -23,7 +23,7 @@ public class GeneticGreedySalesmanGenome implements Comparable {
         fitness = this.calculateFitness();
     }
 
-    public GeneticGreedySalesmanGenome(int numberOfCities, List<Integer> genome, int[][] travelPrices, int startingCity){
+    public GeneticGreedySalesmanGenome(int numberOfCities, List<Integer> genome, int[][] travelPrices, int startingCity) {
         this.travelPrices = travelPrices;
         this.startingCity = startingCity;
         this.numberOfCities = numberOfCities;
@@ -31,7 +31,7 @@ public class GeneticGreedySalesmanGenome implements Comparable {
         fitness = this.calculateFitness();
     }
 
-    public GeneticGreedySalesmanGenome(List<Integer> permutationOfCities, int numberOfCities, int[][] travelPrices, int startingCity){
+    public GeneticGreedySalesmanGenome(List<Integer> permutationOfCities, int numberOfCities, int[][] travelPrices, int startingCity) {
         genome = permutationOfCities;
         this.travelPrices = travelPrices;
         this.startingCity = startingCity;
@@ -39,21 +39,21 @@ public class GeneticGreedySalesmanGenome implements Comparable {
         fitness = this.calculateFitness();
     }
 
-    public int calculateFitness(){
+    public int calculateFitness() {
         int fitness = 0;
         int currentCity = startingCity;
-        for ( int gene : genome) {
+        for (int gene : genome) {
             fitness += travelPrices[currentCity][gene];
             currentCity = gene;
         }
-        fitness += travelPrices[genome.get(numberOfCities-2)][startingCity];
+        fitness += travelPrices[genome.get(numberOfCities - 2)][startingCity];
         return fitness;
     }
 
-    private List<Integer> randomSalesman(){
+    private List<Integer> randomSalesman() {
         List<Integer> result = new ArrayList<Integer>();
-        for(int i=0; i<numberOfCities; i++) {
-            if(i!=startingCity)
+        for (int i = 0; i < numberOfCities; i++) {
+            if (i != startingCity)
                 result.add(i);
         }
         Collections.shuffle(result);
@@ -79,15 +79,6 @@ public class GeneticGreedySalesmanGenome implements Comparable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-//        sb.append("Genetic Result: \n");
-//        sb.append("Path: ");
-//        sb.append(startingCity);
-//        for ( int gene: genome ) {
-//            sb.append(" ");
-//            sb.append(gene);
-//        }
-//        sb.append(" ");
-//        sb.append(startingCity);
         sb.append("Minimum Cost: ");
         sb.append(this.fitness);
         return sb.toString();
@@ -97,9 +88,9 @@ public class GeneticGreedySalesmanGenome implements Comparable {
     @Override
     public int compareTo(Object o) {
         GeneticGreedySalesmanGenome genome = (GeneticGreedySalesmanGenome) o;
-        if(this.fitness > genome.getFitness())
+        if (this.fitness > genome.getFitness())
             return 1;
-        else if(this.fitness < genome.getFitness())
+        else if (this.fitness < genome.getFitness())
             return -1;
         else
             return 0;
