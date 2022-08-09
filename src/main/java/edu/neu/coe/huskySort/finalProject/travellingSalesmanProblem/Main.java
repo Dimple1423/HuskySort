@@ -1,9 +1,7 @@
 package edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem;
 
 import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticGreedyAlgorithm.GeneticGreedySalesman;
-import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticGreedyAlgorithm.GeneticGreedySalesmanGenome;
 import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.GeneticSalesman;
-import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.geneticAlgorithm.GeneticSalesmanGenome;
 import edu.neu.coe.huskySort.finalProject.travellingSalesmanProblem.greedyAlgorithm.Greedy;
 
 import java.io.BufferedWriter;
@@ -21,35 +19,33 @@ public class Main {
 
     static FileOutputStream fis;
 
-    public static void main(String args[]){
-        // Input Matrix
+    public static void main(String args[]) {
+
         try {
             fis = new FileOutputStream("./src/TravellingSalesManBenchmarking.csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
             BufferedWriter bw = new BufferedWriter(isr);
 
-            String content =  "Array Size, Greedy Minimum Cost, Genetic Minimum Cost, GeneticGreedy Minimum Cost \n" ;
+            String content = "Array Size, Greedy Minimum Cost, Genetic Minimum Cost, GeneticGreedy Minimum Cost \n";
             bw.write(content);
             bw.flush();
 
             processing(bw);
 
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private static void processing(BufferedWriter bw) throws IOException {
-
-        for(int n=4; n<=2048; n=n*2) {
+        for (int n = 4; n <= 2048; n = n * 2) {
             Random r = new Random();
             int[][] tsp = new int[n][n];
             int initalNode = r.nextInt(tsp.length);
 
-            for(int i=0; i< n; i++){
-                for(int j = i+1; j < n; j++){
+            for (int i = 0; i < n; i++) {
+                for (int j = i + 1; j < n; j++) {
                     tsp[i][j] = r.nextInt(100);
                     tsp[j][i] = tsp[i][j];
                 }
@@ -75,11 +71,8 @@ public class Main {
     private static int processGeneticGreedy(int[][] tsp, int initalNode, int n, List<Integer> visitedRouteList) {
 
         System.out.println("Genetic-Greedy start");
-
         GeneticGreedySalesman geneticGreedyAlgorithm = new GeneticGreedySalesman(n, SelectionType.TOURNAMENT, tsp, initalNode, 0);
         int greedyGeneticResult = geneticGreedyAlgorithm.optimize(visitedRouteList);
-
-//        System.out.println(greedyGeneticResult);
         System.out.println("Genetic-Greedy end");
 
         return greedyGeneticResult;
@@ -88,29 +81,24 @@ public class Main {
     private static int processGenetic(int[][] tsp, int initalNode, int n) {
 
         System.out.println("Genetic start");
-
         GeneticSalesman geneticAlgorithm = new GeneticSalesman(n, SelectionType.TOURNAMENT, tsp, initalNode, 0);
         int geneticResult = geneticAlgorithm.optimize();
-
-//        System.out.println(geneticResult);
         System.out.println("Genetic end");
 
         return geneticResult;
     }
 
-    private static int processGreedy(List<Integer> visitedRouteList, int[][] tsp, int initalNode ) {
+    private static int processGreedy(List<Integer> visitedRouteList, int[][] tsp, int initalNode) {
 
         System.out.println("Greedy start");
         long startTime = System.nanoTime();
 
         Greedy greedy = new Greedy();
-        int greedyResult =  greedy.findMinRoute(tsp, initalNode,  visitedRouteList);
+        int greedyResult = greedy.findMinRoute(tsp, initalNode, visitedRouteList);
 
         long endTime = System.nanoTime();
-        double time = endTime-startTime;
-        time = (double) (endTime-startTime)/1000000000;
-//        System.out.println("Time taken = "+time);
-
+        double time = endTime - startTime;
+        time = (double) (endTime - startTime) / 1000000000;
         System.out.println("Greedy end");
 
         return greedyResult;
@@ -118,7 +106,7 @@ public class Main {
 
     private static void writeInFile(BufferedWriter bw, int n, int greedyResult, int geneticResult, int greedyGeneticResult) throws IOException {
 
-        String content = n + "," + greedyResult + "," + geneticResult + "," + greedyGeneticResult +"\n";
+        String content = n + "," + greedyResult + "," + geneticResult + "," + greedyGeneticResult + "\n";
         bw.write(content);
         bw.flush();
     }

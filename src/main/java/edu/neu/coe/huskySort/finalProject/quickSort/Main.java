@@ -24,15 +24,15 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
 
-        int k=2;
+        int k = 2;
         int sizeK = 21;
 
-        double[] meanSwap = new double[sizeK-k];
-        double[] meanCompare = new double[sizeK-k];
-        double[] meanRatio = new double[sizeK-k];
+        double[] meanSwap = new double[sizeK - k];
+        double[] meanCompare = new double[sizeK - k];
+        double[] meanRatio = new double[sizeK - k];
         int j = 0;
 
-        for(k = 2; k < sizeK; k++) {
+        for (k = 2; k < sizeK; k++) {
             int N = (int) Math.pow(2, k);
             int levels = k - 2;
             final Config config = Config.setupConfig("true", "", "", "", "");
@@ -46,7 +46,7 @@ public class Main {
             double compare = 0.0;
             double ratio = 0.0;
 
-            for(int i = 0; i< THOUSAND; i++){
+            for (int i = 0; i < THOUSAND; i++) {
 
                 final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
                 helper.preProcess(xs);
@@ -54,7 +54,6 @@ public class Main {
                 helper.postProcess(ys);
                 final PrivateMethodInvoker privateMethodTester = new PrivateMethodInvoker(helper);
                 final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
-//                System.out.println(statPack);
                 final int compares = (int) statPack.getStatistics(Instrumenter.COMPARES).mean();
                 final int inversions = (int) statPack.getStatistics(Instrumenter.INVERSIONS).mean();
                 final int fixes = (int) statPack.getStatistics(Instrumenter.FIXES).mean();
@@ -62,17 +61,15 @@ public class Main {
                 final int copies = (int) statPack.getStatistics(Instrumenter.COPIES).mean();
                 final int worstCompares = round(2.0 * N * Math.log(N));
                 final int bestCompares = round(N * k);
-//                System.out.println("bestCompares: " + bestCompares + ", compares: " + compares + ", worstCompares: " + worstCompares);
-//                System.out.println("ratio of compares to swaps: " + compares * 1.0 / swaps);
                 swap = swaps;
                 compare = compares;
             }
             meanSwap[j] = swap;
             meanCompare[j] = compare;
             meanRatio[j] = compare * 1.0 / swap;
-            System.out.println("Mean Swap for k("+k+")="+meanSwap[j]);
-            System.out.println("Mean compare for k("+k+")="+meanCompare[j]);
-            System.out.println("Mean ratio for k("+k+")="+meanRatio[j]);
+            System.out.println("Mean Swap for k(" + k + ")=" + meanSwap[j]);
+            System.out.println("Mean compare for k(" + k + ")=" + meanCompare[j]);
+            System.out.println("Mean ratio for k(" + k + ")=" + meanRatio[j]);
             j++;
         }
         try {
@@ -82,7 +79,7 @@ public class Main {
             String content = "Array Size , No of Swaps , No of Comparisons, Compares/Swaps \n";
             bw.write(content);
             bw.flush();
-            for (int i = meanSwap.length-1; i >=0; i--) {
+            for (int i = meanSwap.length - 1; i >= 0; i--) {
                 content = (int) Math.pow(2, --k) + "," + meanSwap[i] + "," + meanCompare[i] + "," + meanRatio[i] + "\n";
                 bw.write(content);
                 bw.flush();
