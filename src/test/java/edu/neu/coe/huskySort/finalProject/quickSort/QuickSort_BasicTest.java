@@ -14,6 +14,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static edu.neu.coe.huskySort.util.Utilities.round;
@@ -281,31 +283,73 @@ public class QuickSort_BasicTest {
         System.out.println("ratio of compares to swaps: " + compares*1.0/swaps);
     }
 
-//    @Test
-//    public void testPartitionWithSort() {
-//        String[] xs = new String[]{"g", "f", "e", "d", "c", "b", "a"};
-//        int n = xs.length;
-//        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
-//        final BaseHelper<String> helper = new Helper<>("test", config);
-//        final PrivateMethodInvoker privateMethodTester = new PrivateMethodInvoker(helper);
-//        QuickSort<String> sorter = new QuickSort_Basic<>(helper);
-//        int inversions = n * (n - 1) / 2;
-//        assertEquals(inversions, helper.inversions(xs));
-//        Partitioner<String> partitioner = sorter.createPartitioner();
-//        List<Partition<String>> partitions = partitioner.partition(new Partition<>(xs, 0, xs.length));
-//        assertEquals(11, privateMethodTester.invokePrivate("getFixes"));
-//        Partition<String> p0 = partitions.get(0);
-//        sorter.sort(xs, 0, p0.to, 0);
-//        assertEquals(21, privateMethodTester.invokePrivate("getFixes"));
-//        Partition<String> p1 = partitions.get(1);
-//        sorter.sort(xs, p1.from, p1.to, 0);
-//        assertEquals(21, privateMethodTester.invokePrivate("getFixes"));
-//        int fixes = (int) privateMethodTester.invokePrivate("getFixes");
-//        // NOTE: there are at least as many fixes as inversions -- sort methods aren't necessarily perfectly efficient in terms of swaps.
-//        assertTrue(inversions <= fixes);
-//        assertEquals(0, helper.inversions(xs));
-//        assertEquals(11, privateMethodTester.invokePrivate("getSwaps"));
-//    }
+    @Test
+    public void testSortDetailedRandom1() throws Exception {
+        int k = 10;
+        int N = (int) Math.pow(2, k);
+//        int N =16;
+        // NOTE this depends on the cutoff value for quick sort.
+        int levels = k - 2;
+        final Config config = ConfigTest.setupConfig("true", "", "1", "", "");
+        final ComparisonSortHelper<Integer> helper = (ComparisonSortHelper<Integer>) HelperFactory.create("quick sort dual pivot", N, config);
+        System.out.println(helper);
+        Sort<Integer> s = new QuickSort_Basic<>(helper);
+        s.init(N);
+        Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
+        helper.preProcess(xs);
+        Arrays.sort(xs);
+        Integer[] ys = s.sort(xs);
+        assertTrue(helper.sorted(ys));
+        helper.postProcess(ys);
+        final PrivateMethodInvoker privateMethodTester = new PrivateMethodInvoker(helper);
+        final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
+        System.out.println(statPack);
+        final int compares = (int) statPack.getStatistics(Instrumenter.COMPARES).mean();
+        final int inversions = (int) statPack.getStatistics(Instrumenter.INVERSIONS).mean();
+        final int fixes = (int) statPack.getStatistics(Instrumenter.FIXES).mean();
+        final int swaps = (int) statPack.getStatistics(Instrumenter.SWAPS).mean();
+        final int copies = (int) statPack.getStatistics(Instrumenter.COPIES).mean();
+        final int worstCompares = round(2.0 * N * Math.log(N));
+        final int bestCompares = round(N * k);
+        System.out.println("bestCompares: " + bestCompares + ", compares: " + compares + ", worstCompares: " + worstCompares);
+        assertTrue(compares >= worstCompares);
+        System.out.println("ratio of compares to swaps: " + compares*1.0/swaps);
+    }
+
+    @Test
+    public void testSortDetailedRandom2() throws Exception {
+        int k = 10;
+        int N = (int) Math.pow(2, k);
+        int levels = k - 2;
+        final Config config = ConfigTest.setupConfig("true", "", "1", "", "");
+        final ComparisonSortHelper<Integer> helper = (ComparisonSortHelper<Integer>) HelperFactory.create("quick sort dual pivot", N, config);
+        System.out.println(helper);
+        Sort<Integer> s = new QuickSort_Basic<>(helper);
+        s.init(N);
+        Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
+        helper.preProcess(xs);
+
+        Arrays.sort(xs);
+        System.out.println(Arrays.asList(xs));
+        Collections.reverse(Arrays.asList(xs));
+        System.out.println(Arrays.asList(xs));
+        Integer[] ys = s.sort(xs);
+        assertTrue(helper.sorted(ys));
+        helper.postProcess(ys);
+        final PrivateMethodInvoker privateMethodTester = new PrivateMethodInvoker(helper);
+        final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
+        System.out.println(statPack);
+        final int compares = (int) statPack.getStatistics(Instrumenter.COMPARES).mean();
+        final int inversions = (int) statPack.getStatistics(Instrumenter.INVERSIONS).mean();
+        final int fixes = (int) statPack.getStatistics(Instrumenter.FIXES).mean();
+        final int swaps = (int) statPack.getStatistics(Instrumenter.SWAPS).mean();
+        final int copies = (int) statPack.getStatistics(Instrumenter.COPIES).mean();
+        final int worstCompares = round(2.0 * N * Math.log(N));
+        final int bestCompares = round(N * k);
+        System.out.println("bestCompares: " + bestCompares + ", compares: " + compares + ", worstCompares: " + worstCompares);
+        assertTrue(compares >= worstCompares);
+        System.out.println("ratio of compares to swaps: " + compares*1.0/swaps);
+    }
 
     private static String[] setupWords(final int n) {
         if (n > 36) throw new RuntimeException("cannot have n > 36");
