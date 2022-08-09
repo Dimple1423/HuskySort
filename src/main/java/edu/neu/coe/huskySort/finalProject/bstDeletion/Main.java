@@ -24,9 +24,7 @@ public class Main {
                     "Theoretical Depth(H), P/H*100, Q/H*100, R/H*100, log N(L)\n";
             bw.write(content);
             bw.flush();
-
             processing(bw);
-
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,6 +80,7 @@ public class Main {
 
     }
 
+    // Printing Results in Excel
     private static void writeInFile(BufferedWriter bw, int n, int size, double simpleAvg, double randomAvg, double optimizedAvg) throws IOException {
 
         double sqrtOfSize = Math.sqrt(size);

@@ -160,12 +160,17 @@ public class BSTRandomDeletion<Key extends Comparable<Key>, Value> implements Bs
 
             Node t = x;
             Random r = new Random();
+            //Selecting a method randomly
             int selector = r.nextInt(2);
-            if (selector == 0) {
+
+            if(selector == 0) {
+                //Deleting Predecessor
                 x = max(t.smaller);
                 x.smaller = deleteMax(t.smaller);
                 x.larger = t.larger;
-            } else {
+            }
+            else {
+                //Deleting Successor
                 x = min(t.larger);
                 x.larger = deleteMin(t.larger);
                 x.smaller = t.smaller;
@@ -233,6 +238,7 @@ public class BSTRandomDeletion<Key extends Comparable<Key>, Value> implements Bs
         int depthL = depth(node.larger);
         return 1 + Math.max(depthL, depthS);
     }
+
 
     private class NodeValue {
         private final Node node;

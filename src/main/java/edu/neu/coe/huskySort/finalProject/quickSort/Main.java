@@ -32,7 +32,7 @@ public class Main {
         double[] meanRatio = new double[sizeK - k];
         int j = 0;
 
-        for (k = 2; k < sizeK; k++) {
+        for (k = 3; k < sizeK; k++) {
             int N = (int) Math.pow(2, k);
             int levels = k - 2;
             final Config config = Config.setupConfig("true", "", "", "", "");

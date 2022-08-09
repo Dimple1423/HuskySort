@@ -159,11 +159,15 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
             int rightDepth = depth(x.larger);
 
             Node t = x;
-            if (leftDepth > rightDepth) {
+
+            if(leftDepth > rightDepth) {
+                //Deleting Predecessor
                 x = max(t.smaller);
                 x.smaller = deleteMax(t.smaller);
                 x.larger = t.larger;
-            } else {
+            }
+            else {
+                //Deleting Successor
                 x = min(t.larger);
                 x.larger = deleteMin(t.larger);
                 x.smaller = t.smaller;
