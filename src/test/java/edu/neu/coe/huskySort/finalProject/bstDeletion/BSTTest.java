@@ -4,10 +4,6 @@
 
 package edu.neu.coe.huskySort.finalProject.bstDeletion;
 
-import edu.neu.coe.huskySort.bqs.Queue_Elements;
-import edu.neu.coe.huskySort.finalProject.bstDeletion.BST;
-import edu.neu.coe.huskySort.finalProject.bstDeletion.BSTSimple;
-import edu.neu.coe.huskySort.finalProject.bstDeletion.BstDetail;
 import edu.neu.coe.huskySort.util.PrivateMethodTester;
 import org.junit.Test;
 
