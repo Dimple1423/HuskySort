@@ -12,13 +12,8 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static edu.neu.coe.huskySort.util.Utilities.round;
-import static org.junit.Assert.assertTrue;
 
 public class Main {
 
