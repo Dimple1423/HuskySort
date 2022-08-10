@@ -91,6 +91,7 @@ public class Main {
         bw.flush();
     }
 
+    //Method to delete nodes from Binary Search Tree
     private static void delete(int t, BSTSimple<Integer, Integer> bstSimple, BSTRandomDeletion<Integer, Integer> bstRandom,
                                BSTOptimisedDeletion<Integer, Integer> bstOptimisedDeletion, List<Integer> list, int n, Random r) {
 
@@ -103,6 +104,7 @@ public class Main {
         }
     }
 
+    //Method to insert nodes from Binary Search Tree
     private static void put(int t, BSTSimple<Integer, Integer> bstSimple, BSTRandomDeletion<Integer, Integer> bstRandom,
                             BSTOptimisedDeletion<Integer, Integer> bstOptimisedDeletion, List<Integer> list, int n, Random r) {
 

@@ -68,6 +68,7 @@ public class Main {
         }
     }
 
+    //Method to calculate cost using greedy algorithm
     private static int processGeneticGreedy(int[][] tsp, int initalNode, int n, List<Integer> visitedRouteList) {
 
         System.out.println("Genetic-Greedy start");
@@ -78,6 +79,7 @@ public class Main {
         return greedyGeneticResult;
     }
 
+    //Method to calculate cost using genetic algorithm
     private static int processGenetic(int[][] tsp, int initalNode, int n) {
 
         System.out.println("Genetic start");
@@ -88,6 +90,7 @@ public class Main {
         return geneticResult;
     }
 
+    //Method to calculate cost using Genetic-Greedy algorithm
     private static int processGreedy(List<Integer> visitedRouteList, int[][] tsp, int initalNode) {
 
         System.out.println("Greedy start");
@@ -104,6 +107,7 @@ public class Main {
         return greedyResult;
     }
 
+    //Method to write results in excel file
     private static void writeInFile(BufferedWriter bw, int n, int greedyResult, int geneticResult, int greedyGeneticResult) throws IOException {
 
         String content = n + "," + greedyResult + "," + geneticResult + "," + greedyGeneticResult + "\n";
